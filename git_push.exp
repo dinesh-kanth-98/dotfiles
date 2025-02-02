@@ -1,0 +1,35 @@
+#!/usr/bin/expect
+
+# This script is used to automate the process of pushing code to a GitHub repository using Expect.
+# It sends the GitHub username and password for authentication.
+
+# Start the git push command to push the local repository to the remote repository on GitHub.
+spawn git push -u origin main
+
+# Wait for the prompt asking for the GitHub username.
+expect "Username for 'https://github.com': "
+
+# Send the GitHub username (replace with your own).
+send "dinesh-kanth-98\r"
+
+# Wait for the prompt asking for the GitHub password.
+expect "Password for 'https://dinesh-kanth-98@github.com':"
+
+# Send the GitHub password (replace <Password-key> with your actual GitHub password or personal access token).
+send "<Password-key>\r"
+
+# This command lets the user interact with the terminal after the password is sent.
+# Useful if further interaction is required after authentication, like 2FA or other prompts.
+interact
+
+# Uncomment the following lines if you need to set up the GitHub repository first.
+
+# Set the remote origin to point to your GitHub repository.
+# git remote add origin https://github.com/dinesh-kanth-98/dotfiles.git
+
+# If you need to change the branch to main before pushing, you can uncomment the next line.
+# git branch -M main
+
+# To push to the remote repository, you can uncomment the push command.
+# git push -u origin main
+
