@@ -6,6 +6,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+export ZDOTDIR="$HOME/.config/zsh"
+
 # Set the directory we want to store zinit and plugins
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
@@ -45,6 +47,17 @@ zinit cdreplay -q
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# Source the prompt configuration if it exists
+if [[ -f "${ZDOTDIR}/.zsh_prompt" ]]; then
+  source "${ZDOTDIR}/.zsh_prompt"
+fi
+
+# Source the alias configuration if it exists
+if [[ -f "${ZDOTDIR}/.zsh_aliases" ]]; then
+  source "${ZDOTDIR}/.zsh_aliases"
+fi
+
+
 # Keybindings
 bindkey -e
 bindkey '^p' history-search-backward
@@ -53,7 +66,7 @@ bindkey '^[w' kill-region
 
 # History
 HISTSIZE=5000
-HISTFILE=~/.zsh_history
+HISTFILE=${ZDOTDIR}/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
 setopt appendhistory
@@ -71,22 +84,16 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
-# Aliases
-alias ls='ls --color'
-# alias vim='nvim'
-alias c='clear'
 
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
-
-
+# Load the vcs_info function (for version control system integration)
 autoload -Uz vcs_info
+
+# Run vcs_info right before the prompt is shown to gather VCS info (like Git status)
 precmd() { vcs_info }
 
+# Configure how VCS info should be displayed for Git repos. '%b' shows the current Git branch.
 zstyle ':vcs_info:git:*' formats '%b '
-
-setopt PROMPT_SUBST
-PROMPT='%(?:%F{green}:%F{red})%f %F{yellow}%n%f: %F{cyan}$(if [[ $(pwd) == $HOME ]]; then echo "🏠"; else echo ""; fi) %~%f
-%(?:%F{green}└─:%F{red}└─%(?..[%F{226}%?%F{red}])🭹)❯ %f'

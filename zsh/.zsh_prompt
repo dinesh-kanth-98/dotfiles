@@ -1,0 +1,12 @@
+# Enable prompt substitution (allows dynamic content in the prompt)
+setopt PROMPT_SUBST
+
+# Set custom prompt with color and dynamic content:
+# - Green or red color depending on the exit status of the last command.
+# - Symbol '' followed by the username (%n) in yellow.
+# - Show "🏠" if in the home directory, else show "" for other directories.
+# - Current directory path (%~) in cyan.
+# - Display '└─' or '🭹' depending on the exit status and whether there's an error.
+# - The prompt symbol is '❯'.
+PROMPT='%(?:%F{green}:%F{red})%f %F{yellow}%n%f: %F{cyan}$(if [[ $(pwd) == $HOME ]]; then echo "🏠"; else echo ""; fi) %~%f
+%(?:%F{green}└─:%F{red}└─%(?..[%F{226}%?%F{red}])🭹)❯ %f'
