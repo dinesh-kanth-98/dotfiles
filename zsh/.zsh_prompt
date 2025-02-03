@@ -21,6 +21,16 @@
 # Enable prompt substitution (allows dynamic content in the prompt)
 setopt PROMPT_SUBST
 
+
+# Load the vcs_info function (for version control system integration)
+autoload -Uz vcs_info
+
+# Run vcs_info right before the prompt is shown to gather VCS info (like Git status)
+precmd() { vcs_info }
+
+# Configure how VCS info should be displayed for Git repos. '%b' shows the current Git branch.
+zstyle ':vcs_info:git:*' formats '%b '
+
 # Set custom prompt with color and dynamic content:
 # - Green or red color depending on the exit status of the last command.
 # - Symbol '' followed by the username (%n) in yellow.
