@@ -143,9 +143,12 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 # ██║██║ ╚████║   ██║   ███████╗╚██████╔╝██║  ██║██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║███████║
 # ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
+# To Fix Fzf not Detected in Alacritty
+# Source ~/.fzf.bash to initialize fzf features (key bindings, auto-completion) if the file exists.
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # Initializes fzf (fuzzy finder) for use with Zsh, enabling fuzzy search in the terminal.
 eval "$(fzf --zsh)"
 
 # Sets up zoxide (fast directory traversal tool) for use with Zsh, improving directory navigation using `cd`.
 eval "$(zoxide init --cmd cd zsh)"
-
