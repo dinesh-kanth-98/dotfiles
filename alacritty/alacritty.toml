@@ -1,0 +1,50 @@
+#  █████╗ ██╗      █████╗  ██████╗██████╗ ██╗████████╗████████╗██╗   ██╗
+# ██╔══██╗██║     ██╔══██╗██╔════╝██╔══██╗██║╚══██╔══╝╚══██╔══╝╚██╗ ██╔╝
+# ███████║██║     ███████║██║     ██████╔╝██║   ██║      ██║    ╚████╔╝
+# ██╔══██║██║     ██╔══██║██║     ██╔══██╗██║   ██║      ██║     ╚██╔╝
+# ██║  ██║███████╗██║  ██║╚██████╗██║  ██║██║   ██║      ██║      ██║
+# ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝      ╚═╝
+
+[general]
+import = [
+  "~/.config/alacritty/themes/themes/midnight-haze.toml"
+]
+
+[ env ]
+TERM = "xterm-256color"
+# PATH = "/home/dinesh-kanth/.fzf/bin:$PATH"
+
+[window]
+# decorations = "None"
+opacity = 1
+blur = true
+startup_mode = "Maximized"
+
+[window.padding]
+x = 10
+y = 10
+
+[scrolling]
+history = 10000   # Number of lines to remember in the scrollback buffer
+multiplier = 3    # Scroll multiplier (lines per scroll event)
+# smooth = true     # Enable smooth scrolling
+
+# [font]
+# normal_family = "MesloLGS Nerd Font Mono"
+# normal_style = "Regular"
+# bold_family = "MesloLGS Nerd Font Mono"
+# bold_style = "Bold"
+# italic_family = "MesloLGS Nerd Font Mono"
+# italic_style = "Italic"
+# size = 11.0
+# use_ligatures = true
+
+[cursor.style]
+shape = "Block"
+blinking = "Always"
+
+[selection]
+save_to_clipboard = true
+
+[terminal.shell]
+program = "/usr/bin/zsh"

@@ -34,6 +34,7 @@ sudo apt install stow git
    For Zsh configuration:
 
    ```bash
+   mkdir -p ~/.config/zsh/
    stow -t ~/.config/zsh/ zsh
    ```
 
@@ -41,6 +42,13 @@ sudo apt install stow git
 
    ```bash
    stow -t ~/ bash
+   ```
+
+   For Alacritty configuration:
+
+   ```bash
+   mkdir -p ~/.config/alacritty/
+   stow -t ~/.config/alacritty/ alacritty
    ```
 
 4. **Enjoy your new configuration!**
