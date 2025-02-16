@@ -21,15 +21,72 @@
 # Enable prompt substitution (allows dynamic content in the prompt)
 setopt PROMPT_SUBST
 
+#  ██████╗ ██╗████████╗     ██╗███╗   ██╗███████╗ ██████╗
+# ██╔════╝ ██║╚══██╔══╝     ██║████╗  ██║██╔════╝██╔═══██╗
+# ██║  ███╗██║   ██║        ██║██╔██╗ ██║█████╗  ██║   ██║
+# ██║   ██║██║   ██║        ██║██║╚██╗██║██╔══╝  ██║   ██║
+# ╚██████╔╝██║   ██║███████╗██║██║ ╚████║██║     ╚██████╔╝
+#  ╚═════╝ ╚═╝   ╚═╝╚══════╝╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝
 
-# Load the vcs_info function (for version control system integration)
+# Load necessary modules
 autoload -Uz vcs_info
+autoload -U colors && colors
+autoload -Uz add-zsh-hook  # Enable multiple precmd hooks
 
-# Run vcs_info right before the prompt is shown to gather VCS info (like Git status)
-precmd() { vcs_info }
+# Configure vcs_info for Git repositories
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' formats '%F{142}  [%F{2}%b%F{142}]%f'
+zstyle ':vcs_info:*' actionformats '%F{142}  [%F{2}%b|%F{1}%a%F{142)%f'
 
-# Configure how VCS info should be displayed for Git repos. '%b' shows the current Git branch.
-zstyle ':vcs_info:git:*' formats '%b '
+# Function to count staged/unstaged/untracked files
+count_staged_unstaged() {
+  git rev-parse --is-inside-work-tree &> /dev/null || return ""
+
+  local staged_count unstaged_count untracked_count output=""
+
+  # Count staged files
+  staged_count=$(git diff --cached --name-only | wc -l | tr -d ' ')
+
+  # Count unstaged modified files
+  unstaged_count=$(git diff --name-only | wc -l | tr -d ' ')
+
+  # Count untracked files
+  untracked_count=$(git ls-files --others --exclude-standard | wc -l | tr -d ' ')
+
+  # Format output
+  [[ $staged_count -gt 0 ]] && output+="%F{yellow}+${staged_count}%f"
+  [[ $unstaged_count -gt 0 ]] && output+=" %F{red}!${unstaged_count}%f"
+  [[ $untracked_count -gt 0 ]] && output+=" %F{blue}?${untracked_count}%f"
+
+  [[ -n "$output" ]] && output="%F{106}[$output%F{106}]%f"
+
+  echo "$output"
+}
+
+# Function to update Git info before prompt
+update_git_info() {
+  vcs_info  # Ensure vcs_info updates
+
+  # If inside a Git repository, keep branch info and add staged/unstaged counts
+  if git rev-parse --is-inside-work-tree &> /dev/null; then
+    local git_status="$(count_staged_unstaged)"
+    vcs_info_msg_0_="${vcs_info_msg_0_} $git_status"
+  else
+    vcs_info_msg_0_=""  # Clear outside Git directories
+  fi
+}
+
+# Register proper Zsh hooks
+add-zsh-hook precmd update_git_info
+
+
+# ██████╗ ██████╗  ██████╗ ███╗   ███╗██████╗ ████████╗
+# ██╔══██╗██╔══██╗██╔═══██╗████╗ ████║██╔══██╗╚══██╔══╝
+# ██████╔╝██████╔╝██║   ██║██╔████╔██║██████╔╝   ██║
+# ██╔═══╝ ██╔══██╗██║   ██║██║╚██╔╝██║██╔═══╝    ██║
+# ██║     ██║  ██║╚██████╔╝██║ ╚═╝ ██║██║        ██║
+# ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚═╝        ╚═╝
 
 # Set custom prompt with color and dynamic content:
 # - Green or red color depending on the exit status of the last command.
@@ -38,5 +95,48 @@ zstyle ':vcs_info:git:*' formats '%b '
 # - Current directory path (%~) in cyan.
 # - Display '└─' or '🭹' depending on the exit status and whether there's an error.
 # - The prompt symbol is '❯'.
-PROMPT='%(?:%F{green}:%F{red}) %f%F{yellow}%n%f: %F{cyan}$(if [[ $(pwd) == $HOME ]]; then echo " "; else echo ""; fi) %~%f
+PROMPT='%(?:%F{green}:%F{red}) %f%F{yellow}%n%f: %F{cyan}$(if [[ $(pwd) == $HOME ]]; then echo " "; else echo ""; fi) %~%f ${vcs_info_msg_0_}
 %(?:%F{green}└─:%F{red}└─%(?..[%F{189}%?%F{red}])🭹)❯ %f'
+
+
+# ██████╗ ██████╗ ██████╗  ██████╗ ███╗   ███╗██████╗ ████████╗
+# ██╔══██╗██╔══██╗██╔══██╗██╔═══██╗████╗ ████║██╔══██╗╚══██╔══╝
+# ██████╔╝██████╔╝██████╔╝██║   ██║██╔████╔██║██████╔╝   ██║
+# ██╔══██╗██╔═══╝ ██╔══██╗██║   ██║██║╚██╔╝██║██╔═══╝    ██║
+# ██║  ██║██║     ██║  ██║╚██████╔╝██║ ╚═╝ ██║██║        ██║
+# ╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚═╝        ╚═╝
+
+function record_command_start() {
+  cmd_start_time=$(($(print -P %D{%s%6.}) / 1000))
+}
+
+function calculate_command_duration() {
+  if [[ -n $cmd_start_time ]]; then
+    local now=$(($(print -P %D{%s%6.}) / 1000))
+    local elapsed_ms=$((now - cmd_start_time))
+    local elapsed_s=$((elapsed_ms / 1000))
+    local ms=$((elapsed_ms % 1000))
+    local s=$((elapsed_s % 60))
+    local m=$(((elapsed_s / 60) % 60))
+    local h=$((elapsed_s / 3600))
+
+    if   ((h > 0)); then command_duration="${h}h${m}m"
+    elif ((m > 0)); then command_duration="${m}m${s}s"
+    elif ((s > 9)); then command_duration="${s}.$(printf %03d $ms | cut -c1-2)s" # 12.34s
+    elif ((s > 0)); then command_duration="${s}.$(printf %03d $ms)s" # 1.234s
+    else command_duration="${ms}ms"
+    fi
+
+    unset cmd_start_time
+  else
+    # Clear previous result when hitting Return with no command
+    unset command_duration
+  fi
+
+  # Update RPROMPT dynamically
+  RPROMPT='%F{103}'"$(if [[ -n $command_duration ]]; then echo "󰞌[$command_duration]"; fi)  󰥔 [$(date "+%T")]%f"
+}
+
+# Register hooks
+add-zsh-hook preexec record_command_start
+add-zsh-hook precmd calculate_command_duration
