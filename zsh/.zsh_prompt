@@ -36,8 +36,8 @@ autoload -Uz add-zsh-hook  # Enable multiple precmd hooks
 # Configure vcs_info for Git repositories
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' formats '%F{142}  [%F{2}%b%F{142}]%f'
-zstyle ':vcs_info:*' actionformats '%F{142}  [%F{2}%b|%F{1}%a%F{142)%f'
+zstyle ':vcs_info:*' formats '%F{250}  [%F{209}%b%F{250}]%f'
+zstyle ':vcs_info:*' actionformats '%F{250}  [%F{209}%b|%F{1}%a%F{250)%f'
 
 # Function to count staged/unstaged/untracked files
 count_staged_unstaged() {
@@ -57,9 +57,9 @@ count_staged_unstaged() {
   # Format output
   [[ $staged_count -gt 0 ]] && output+="%F{yellow}+${staged_count}%f"
   [[ $unstaged_count -gt 0 ]] && output+=" %F{red}!${unstaged_count}%f"
-  [[ $untracked_count -gt 0 ]] && output+=" %F{blue}?${untracked_count}%f"
+  [[ $untracked_count -gt 0 ]] && output+=" %F{39}?${untracked_count}%f"
 
-  [[ -n "$output" ]] && output="%F{106}[$output%F{106}]%f"
+  [[ -n "$output" ]] && output="%F{250}[$output%F{250}]%f"
 
   echo "$output"
 }

@@ -58,7 +58,7 @@ current_index=$(cat "$INDEX_FILE")
 theme_file="${THEMES[$current_index]}"
 
 # Update the theme file path in the alacritty.toml configuration file (3rd line)
-sed -i "3s|.*|  \"~/.config/alacritty/themes/themes/${theme_file}\"|" "$HOME/.config/alacritty/alacritty.toml"
+sed -i "10s|.*|  \"~/.config/alacritty/themes/themes/${theme_file}\"|" "$HOME/.config/alacritty/alacritty.toml"
 
 # Print the updated theme name
 echo "Theme updated to: $theme_file"

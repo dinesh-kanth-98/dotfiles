@@ -52,11 +52,49 @@ autoload -Uz compinit && compinit
 # The `-q` flag enables quiet mode, suppressing output messages.
 zinit cdreplay -q
 
+# Useful Functions
+source "$ZDOTDIR/.zsh_functions"
+
 # Source the prompt configuration
-source "${ZDOTDIR}/.zsh_prompt"
+zsh_add_file ".zsh_prompt"
 
 # Source the alias configuration
-source "${ZDOTDIR}/.zsh_aliases"
+zsh_add_file ".zsh_aliases"
+
+
+#  ██████╗ ██████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗
+# ██╔═══██╗██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝
+# ██║   ██║██████╔╝   ██║   ██║██║   ██║██╔██╗ ██║███████╗
+# ██║   ██║██╔═══╝    ██║   ██║██║   ██║██║╚██╗██║╚════██║
+# ╚██████╔╝██║        ██║   ██║╚██████╔╝██║ ╚████║███████║
+#  ╚═════╝ ╚═╝        ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+
+# Prevents errors when using wildcards that don’t match anything (wildcards like *, ?, etc.).
+setopt nomatch
+
+# Allows automatic `cd` into directories when typing their name without needing to type `cd` explicitly.
+setopt auto_cd
+
+# Automatically lists possible completions if there's ambiguity in tab completion (no need to hit Tab twice).
+setopt auto_list
+
+# Enables advanced pattern matching (extended globbing) allowing more complex wildcard patterns (e.g., ^, ~).
+setopt extendedglob
+
+# Allows the use of comments (#) in interactive shell commands without causing errors or unexpected behavior.
+setopt interactive_comments
+
+# Suggests corrections for mistyped commands (e.g., will suggest `git` if you type `gittt`).
+setopt CORRECT
+
+# Cycles through completions instead of displaying them in a list (useful for narrowing down options interactively).
+# setopt menucomplete
+
+# Disables the Ctrl+S keybinding, which prevents freezing the terminal (commonly used to stop terminal output).
+stty stop undef
+
+# Prevents special highlighting of text when pasting (avoids visual issues when pasting text into the terminal).
+zle_highlight=('paste:none')
 
 
 # ██╗  ██╗███████╗██╗   ██╗     ██████╗ ██╗███╗   ██╗██████╗ ██╗███╗   ██╗ ██████╗ ███████╗
@@ -98,7 +136,8 @@ bindkey '^[[3;5~' delete-word
 # ██║  ██║██║███████║   ██║   ╚██████╔╝██║  ██║   ██║
 # ╚═╝  ╚═╝╚═╝╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝   ╚═╝
 
-HISTSIZE=5000
+HISTSIZE=10000
+SAVEHIST=1000000
 HISTFILE=${ZDOTDIR}/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
