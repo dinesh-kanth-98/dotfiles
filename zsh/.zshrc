@@ -191,3 +191,6 @@ eval "$(fzf --zsh)"
 
 # Sets up zoxide (fast directory traversal tool) for use with Zsh, improving directory navigation using `cd`.
 eval "$(zoxide init --cmd cd zsh)"
+
+export PATH="$HOME/.local/bin:$PATH"
+export BAT_THEME="Catppuccin_Frappe"

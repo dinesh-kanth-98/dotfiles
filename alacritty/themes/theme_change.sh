@@ -57,8 +57,11 @@ current_index=$(cat "$INDEX_FILE")
 # Get the theme file based on the current index
 theme_file="${THEMES[$current_index]}"
 
-# Update the theme file path in the alacritty.toml configuration file (3rd line)
-sed -i "10s|.*|  \"~/.config/alacritty/themes/themes/${theme_file}\"|" "$HOME/.config/alacritty/alacritty.toml"
+# Update the theme file path in the alacritty.toml configuration file (10th line)
+# sed -i "10s|.*|  \"~/.config/alacritty/themes/themes/${theme_file}\"|" "$HOME/.config/alacritty/alacritty.toml"
+
+#After Updating theme from this script Softlink is loosing, soo to fix it
+sed -i "10s|.*|  \"~/.config/alacritty/themes/themes/${theme_file}\"|" ~/GIT/dotfiles/alacritty/alacritty.toml
 
 # Print the updated theme name
 echo "Theme updated to: $theme_file"

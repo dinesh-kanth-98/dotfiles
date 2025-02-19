@@ -6,9 +6,9 @@
 # ╚═╝      ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 
 
-# Function to source files if they exist
+# Function to source files
 function zsh_add_file() {
-    [ -f "$ZDOTDIR/$1" ] && source "$ZDOTDIR/$1"
+    source "$ZDOTDIR/$1"
 }
 
 function mkcd () {

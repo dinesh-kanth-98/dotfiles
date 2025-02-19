@@ -51,6 +51,21 @@ sudo apt install stow git
    stow -t ~/.config/alacritty/ alacritty
    ```
 
+   For Zellij configuration:
+
+   ```bash
+   mkdir -p ~/.config/zellij
+   stow -t ~/.config/zellij/ zellij
+   ```
+
+   For bat configuration:
+
+   ```bash
+   mkdir -p ~/.config/bat
+   stow -t ~/.config/bat/ bat
+
+   ```
+
 4. **Enjoy your new configuration!**
 
 Let me know if you need anything else!
