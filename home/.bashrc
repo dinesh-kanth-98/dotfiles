@@ -123,4 +123,3 @@ fi
 export PATH=/home/dinesh-kanth/opt/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/bin:~/.local/bin/:$PATH
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-

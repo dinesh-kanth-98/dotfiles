@@ -314,20 +314,6 @@ themes {
         white 255 255 255
     }
 
-    catppuccin-latte {
-        bg "#acb0be" // Surface2
-        fg "#4c4f69" // Text
-        red "#d20f39"
-        green "#40a02b"
-        blue "#1e66f5"
-        yellow "#df8e1d"
-        magenta "#ea76cb" // Pink
-        orange "#fe640b" // Peach
-        cyan "#04a5e5" // Sky
-        black "#e6e9ef" // Mantle
-        white "#4c4f69" // Text
-    }
-
     catppuccin-frappe {
         bg "#626880" // Surface2
         fg "#c6d0f5" // Text
@@ -369,14 +355,64 @@ themes {
         black "#181825" // Mantle
         white "#cdd6f4" // Text
     }
+
+    tokyonight_moon {
+    fg "#c8d3f5"
+    bg "#2f334d"
+    // Black should match the terminal background color
+    // This ensures the top and bottom bars are transparent
+    black "#222436"
+    red "#ff757f"
+    green "#c3e88d"
+    yellow "#ffc777"
+    blue "#82aaff"
+    magenta "#c099ff"
+    cyan "#86e1fc"
+    white "#828bb8"
+    orange "#ff966c"
+    }
+
+    tokyonight_night {
+    fg "#c0caf5"
+    bg "#292e42"
+    // Black should match the terminal background color
+    // This ensures the top and bottom bars are transparent
+    black "#1a1b26"
+    red "#f7768e"
+    green "#9ece6a"
+    yellow "#e0af68"
+    blue "#7aa2f7"
+    magenta "#bb9af7"
+    cyan "#7dcfff"
+    white "#a9b1d6"
+    orange "#ff9e64"
+    }
+
+    tokyonight_storm {
+    fg "#c0caf5"
+    bg "#292e42"
+    // Black should match the terminal background color
+    // This ensures the top and bottom bars are transparent
+    black "#24283b"
+    red "#f7768e"
+    green "#9ece6a"
+    yellow "#e0af68"
+    blue "#7aa2f7"
+    magenta "#bb9af7"
+    cyan "#7dcfff"
+    white "#a9b1d6"
+    orange "#ff9e64"
+    }
 }
 
 // Choose the theme that is specified in the themes section.
 // Default: default
-//
-theme "catppuccin-frappe"
-// theme "catppuccin-mocha"
-// theme "catppuccin-latte"
+
+// theme "tokyonight_moon"
+// theme "tokyonight_night"
+// theme "tokyonight_storm"
+// theme "catppuccin-frappe"
+theme "catppuccin-mocha"
 // theme "catppuccin-macchiato"
 
 // The name of the default layout to load on startup

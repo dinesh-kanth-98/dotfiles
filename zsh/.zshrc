@@ -193,4 +193,5 @@ eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 
 export PATH="$HOME/.local/bin:$PATH"
+
 export BAT_THEME="Catppuccin_Frappe"
