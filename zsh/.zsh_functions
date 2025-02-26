@@ -14,3 +14,26 @@ function zsh_add_file() {
 function mkcd () {
     mkdir -p "$1" && cd "$1";
 }
+
+fzf_zellij_attach() {
+    # Get the list of existing zellij sessions
+    local sessions
+    sessions=$(zellij list-sessions | awk '{print $1}' | sed -r 's/\x1B\[[0-9;]*[mK]//g' )
+
+    # Check if there are any sessions available
+    if [[ -z "$sessions" ]]; then
+        echo "No existing zellij sessions found."
+        return 1
+    fi
+
+    # Use fzf to select a session
+    local selected_session
+    selected_session=$(echo "$sessions" | fzf --prompt="Select zellij session: ")
+
+    # If a session was selected, attach to it
+    if [[ -n "$selected_session" ]]; then
+        zellij attach "$selected_session"
+    else
+        echo "No session selected."
+    fi
+}
