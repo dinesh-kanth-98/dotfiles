@@ -15,25 +15,25 @@ function mkcd () {
     mkdir -p "$1" && cd "$1";
 }
 
-fzf_zellij_attach() {
-    # Get the list of existing zellij sessions
-    local sessions
-    sessions=$(zellij list-sessions | awk '{print $1}' | sed -r 's/\x1B\[[0-9;]*[mK]//g' )
+function zellij-fzf() {
+    if [ "$1" = "a" ]; then
+        # Get the list of existing zellij sessions
+        local sessions
+        sessions=$(zellij list-sessions | awk '{print $1}' | sed -r 's/\x1B\[[0-9;]*[mK]//g' )
 
-    # Check if there are any sessions available
-    if [[ -z "$sessions" ]]; then
-        echo "No existing zellij sessions found."
-        return 1
-    fi
+        # Use fzf to select a session
+        local selected_session
+        selected_session=$(echo "$sessions" | fzf --height=40% --layout=reverse  --print-query | tail -n 1)
 
-    # Use fzf to select a session
-    local selected_session
-    selected_session=$(echo "$sessions" | fzf --prompt="Select zellij session: ")
-
-    # If a session was selected, attach to it
-    if [[ -n "$selected_session" ]]; then
-        zellij attach "$selected_session"
+        # Check if the selected session exists
+        if echo "$sessions" | grep -q "^$selected_session$"; then
+            echo "Attaching to existing session: $selected_session"
+            zellij attach "$selected_session"
+        elif [ -n "$selected_session" ]; then
+            echo "Creating and attaching to new session: $selected_session"
+            zellij -s "$selected_session"
+        fi
     else
-        echo "No session selected."
+        zellij
     fi
 }
