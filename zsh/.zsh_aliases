@@ -21,48 +21,67 @@ if command -v bat >/dev/null 2>&1; then
   alias cat='bat --style plain --paging never -f'
 fi
 
-# Check if 'exa' command exists once
-if command -v exa &> /dev/null; then
-    alias l1='exa -Flh --tree --level=2'
-    alias l2='exa -Flh --tree --level=3'
+# Check if 'eza' command exists once
+if command -v eza &> /dev/null; then
+    alias l1='eza -lhF --tree --level=2'
+    alias l2='eza -lhF --tree --level=3'
 
-    alias ls='exa -F --color=always --icons'
-    alias lsa='exa -Fa --color=always --icons'
+    alias ls='eza -F --color=always --icons'
+    alias lsa='eza -aF --color=always --icons'
 
-    alias ll='exa -Flh --color=always --icons'
-    alias lla='exa -Flah --color=always --icons'
+    alias ll='eza -lF --color=always --icons --bytes'
+    alias llh='eza -lhF --color=always --icons'
 
-    alias llg='exa -Flh --color=always --icons --group-directories-first'
-    alias llga='exa -Flah --color=always --icons --group-directories-first'
+    alias lla='eza -laF --color=always --icons --bytes'
+    alias llah='eza -lahF --color=always --icons'
 
-    alias llt='exa -Flh --color=always --icons  --sort modified'
-    alias llta='exa -Flah --color=always --icons  --sort modified'
+    alias llg='eza -lhF --color=always --icons --group-directories-first'
+    alias llga='eza -lahF --color=always --icons --group-directories-first'
+
+    alias llt='eza -lhF --color=always --icons  --sort modified'
+    alias llta='eza -lahF --color=always --icons  --sort modified'
 else
     alias ls='ls -F'
     alias lsa='ls -aF'
 
-    alias ll='ls -lhF'
-    alias lla='ls -alhF'
+    alias ll='ls -lF'
+    alias llh='ls -lhF'
+
+    alias lla='ls -alF'
+    alias llah='ls -alhF'
 
     alias llt='ls -hlFtr'
     alias llta='ls -halFtr'
 fi
 
-# Check if 'code' command exists once
+# Detect editor
 if command -v code >/dev/null 2>&1; then
-  # If 'code' exists, use it in aliases
-  alias OA='(code ~/.config/zsh/.zsh_aliases & ) > /dev/null 2>&1'
-  alias OB='(code ~/.config/zsh/.zshrc & ) > /dev/null 2>&1'
-  alias OBP='(code ~/.config/zsh/.zsh_profile & ) > /dev/null 2>&1'
+  EDITOR_CMD="code"
+  EDITOR_BG="yes"
 else
-  # If 'code' does not exist, fall back to vim
-  alias OA='(vim ~/.config/zsh/.zsh_aliases)'
-  alias OB='(vim ~/.config/zsh/.zshrc)'
-  alias OBP='(vim ~/.config/zsh/.zsh_profile)'
+  EDITOR_CMD="vim"
+  EDITOR_BG="no"
 fi
 
-# Alias to source the bashrc file
-alias ZR='source ~/.config/zsh/.zshrc'
+open_cfg() {
+  if [ "$EDITOR_BG" = "yes" ]; then
+    ( "$EDITOR_CMD" "$1" & ) > /dev/null 2>&1
+  else
+    "$EDITOR_CMD" "$1"
+  fi
+}
+
+alias OA='open_cfg ~/.config/zsh/.zsh_aliases'
+
+if [ -n "$BASH_VERSION" ]; then
+  alias OB='open_cfg ~/.bashrc'
+  alias OBP='open_cfg ~/.bash_profile'
+  alias BR='source ~/.bashrc'
+elif [ -n "$ZSH_VERSION" ]; then
+  alias OB='open_cfg ~/.config/zsh/.zshrc'
+  alias OBP='open_cfg ~/.config/zsh/.zsh_functions'
+  alias ZR='source ~/.config/zsh/.zshrc'
+fi
 
 alias nb='( jupyter notebook & ) > /dev/null 2>&1'
 alias gss="git status"
