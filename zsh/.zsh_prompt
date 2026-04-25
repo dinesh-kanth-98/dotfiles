@@ -21,6 +21,7 @@
 # Enable prompt substitution (allows dynamic content in the prompt)
 setopt PROMPT_SUBST
 
+
 #  ██████╗ ██╗████████╗     ██╗███╗   ██╗███████╗ ██████╗
 # ██╔════╝ ██║╚══██╔══╝     ██║████╗  ██║██╔════╝██╔═══██╗
 # ██║  ███╗██║   ██║        ██║██╔██╗ ██║█████╗  ██║   ██║
@@ -51,13 +52,10 @@ count_staged_unstaged() {
   # Count unstaged modified files
   unstaged_count=$(git diff --name-only | wc -l | tr -d ' ')
 
-  # Count untracked files
-  untracked_count=$(git ls-files --others --exclude-standard | wc -l | tr -d ' ')
-
   # Format output
-  [[ $staged_count -gt 0 ]] && output+="%F{yellow}+${staged_count}%f"
-  [[ $unstaged_count -gt 0 ]] && output+=" %F{red}!${unstaged_count}%f"
-  [[ $untracked_count -gt 0 ]] && output+=" %F{39}?${untracked_count}%f"
+  [[ $staged_count -gt 0 ]] && output+="%F{green}+${staged_count}%f"
+  [[ $staged_count -gt 0 && $unstaged_count -gt 0 ]] && output+=" "
+  [[ $unstaged_count -gt 0 ]] && output+="%F{red}!${unstaged_count}%f"
 
   [[ -n "$output" ]] && output="%F{250}[$output%F{250}]%f"
 
@@ -89,15 +87,29 @@ add-zsh-hook precmd update_git_info
 # ╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚═╝        ╚═╝
 
 # Set custom prompt with color and dynamic content:
-# - Green or red color depending on the exit status of the last command.
-# - Symbol '' followed by the username (%n) in yellow.
-# - Show " " if in the home directory, else show "" for other directories.
-# - Current directory path (%~) in cyan.
-# - Display '└─' or '🭹' depending on the exit status and whether there's an error.
-# - The prompt symbol is '❯'.
-PROMPT='%(?:%F{green}:%F{red}) %f%F{yellow}%n%f: %F{cyan}$(if [[ $(pwd) == $HOME ]]; then echo " "; else echo ""; fi) %~%f ${vcs_info_msg_0_}
-%(?:%F{green}└─:%F{red}└─%(?..[%F{189}%?%F{red}])🭹)❯ %f'
 
+# Return folder icon: home vs other directories
+prompt_dir_icon() {
+  if [[ $PWD == $HOME ]]; then
+    echo " "
+  else
+    echo " "
+  fi
+}
+
+# Ubuntu prompt
+prompt_ubuntu() {
+  PROMPT='%(?:%F{green}:%F{red}) %f%F{yellow}%n%f: %F{cyan}$(prompt_dir_icon)%~%f ${vcs_info_msg_0_}
+%(?:%F{green}└─:%F{red}└─%(?..[%F{189}%?%F{red}])🭹)❯ %f'
+}
+
+# Debian prompt
+prompt_debian() {
+  PROMPT='%(?:%F{green}:%F{red}) %f%F{yellow}%n%f: %F{cyan}$(prompt_dir_icon)%~%f ${vcs_info_msg_0_}
+%(?:%F{green}└─:%F{red}└─%(?..[%F{189}%?%F{red}])🭹)❯ %f'
+}
+
+prompt_debian
 
 # ██████╗ ██████╗ ██████╗  ██████╗ ███╗   ███╗██████╗ ████████╗
 # ██╔══██╗██╔══██╗██╔══██╗██╔═══██╗████╗ ████║██╔══██╗╚══██╔══╝
@@ -137,6 +149,7 @@ function calculate_command_duration() {
   RPROMPT='%F{103}'"$(if [[ -n $command_duration ]]; then echo "󰞌[$command_duration]"; fi)  󰥔 [$(date "+%T")]%f"
 }
 
-# Register hooks
-add-zsh-hook preexec record_command_start
-add-zsh-hook precmd calculate_command_duration
+# # Commented this out to improve performance in the virtual machine.
+# # Register hooks
+# add-zsh-hook preexec record_command_start
+# add-zsh-hook precmd calculate_command_duration

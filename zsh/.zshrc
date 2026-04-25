@@ -1,3 +1,4 @@
+
 # ███████╗███████╗██╗  ██╗██████╗  ██████╗
 # ╚══███╔╝██╔════╝██║  ██║██╔══██╗██╔════╝
 #   ███╔╝ ███████╗███████║██████╔╝██║
@@ -30,17 +31,18 @@ source "${ZINIT_HOME}/zinit.zsh"
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
-zinit light Aloxaf/fzf-tab
+# zinit light Aloxaf/fzf-tab
 
-# Add in snippets
+
+# Loads Oh My Zsh’s git helper library with common git utility functions used by git-related plugins
 zinit snippet OMZL::git.zsh
-zinit snippet OMZP::git
+
+# Lets you quickly prepend sudo to the previous command, typically by pressing Esc twice
 zinit snippet OMZP::sudo
-zinit snippet OMZP::archlinux
-zinit snippet OMZP::aws
-zinit snippet OMZP::kubectl
-zinit snippet OMZP::kubectx
+
+# Suggests packages or commands to install when you type a command that does not exist
 zinit snippet OMZP::command-not-found
+
 
 # Loads Zsh's powerful tab-completion system for commands, aliases, and functions
 # Example:
@@ -184,14 +186,13 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # To Fix Fzf not Detected in Alacritty
 # Source ~/.fzf.bash to initialize fzf features (key bindings, auto-completion) if the file exists.
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-# Initializes fzf (fuzzy finder) for use with Zsh, enabling fuzzy search in the terminal.
-eval "$(fzf --zsh)"
-
-# Sets up zoxide (fast directory traversal tool) for use with Zsh, improving directory navigation using `cd`.
-eval "$(zoxide init --cmd cd zsh)"
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 export PATH="$HOME/.local/bin:$PATH"
-
 export BAT_THEME="Catppuccin_Frappe"
+
+# Initializes fzf (fuzzy finder) for use with Zsh, enabling fuzzy search in the terminal.
+#eval "$(fzf --zsh)"
+
+# Sets up zoxide (fast directory traversal tool) for use with Zsh, improving directory navigation using `cd`.
+#eval "$(zoxide init --cmd cd zsh)"

@@ -37,3 +37,23 @@ function zellij-fzf() {
         zellij
     fi
 }
+
+run_cmd() {
+    echo "+ $@"
+    "$@"
+}
+
+fwcp() {
+    expected_dir="switch-reason-fw-s20r"
+
+    current_dir="$(basename "$PWD")"
+
+    if [[ "$current_dir" != "$expected_dir" ]]; then
+        echo "Error: Must be inside '$expected_dir' directory"
+        return 1
+    fi
+
+    run_cmd ls -l output/istax_lan969x.ext4.gz
+    run_cmd cp output/istax_lan969x.ext4.gz /media/sf_Shared_folder
+    run_cmd ls -l /media/sf_Shared_folder/istax_lan969x.ext4.gz
+}
