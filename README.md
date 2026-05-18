@@ -104,7 +104,39 @@ lrwxrwxrwx 1 user user   27 Feb  2 12:00 .zshrc -> ~/dotfiles/zsh/.zshrc
 
 ---
 
-### 6. Final Directory Structure
+### 5. Using Stow for Bat Configuration
+
+Now, we’ll use **Stow** to manage the Bat configuration:
+
+```bash
+mkdir -p ~/.config/bat/
+stow -t ~/.config/bat/ bat
+bat cache --build
+bat --list-themes | grep Catppuccin
+```
+
+This creates the necessary symlinks from `~/dotfiles/bat/` to `~/.config/bat/`. Verify the symlinks are created:
+
+```bash
+ls -al ~/.config/bat/
+```
+
+You should see something like this:
+
+```
+lrwxrwxrwx - dinesh 18 May 16:39 themes -> ../../Templates/my_git/dotfiles/bat/themes/
+```
+
+**export theme to see the color effect**
+
+```bash
+bat --list-themes
+export BAT_THEME="Catppuccin_Frappe"
+```
+
+---
+
+### 7. Final Directory Structure
 
 After completing the steps above, your `dotfiles` directory will have the following structure:
 
