@@ -104,7 +104,7 @@ lrwxrwxrwx 1 user user   27 Feb  2 12:00 .zshrc -> ~/dotfiles/zsh/.zshrc
 
 ---
 
-### 5. Using Stow for Bat Configuration
+### 6. Using Stow for Bat Configuration
 
 Now, we’ll use **Stow** to manage the Bat configuration:
 
