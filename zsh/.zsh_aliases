@@ -84,7 +84,27 @@ elif [ -n "$ZSH_VERSION" ]; then
 fi
 
 alias nb='( jupyter notebook & ) > /dev/null 2>&1'
-alias gss="git status"
 alias gmeld="git difftool -t meld"
 alias ATC='~/.config/alacritty/themes/theme_change.sh && ~/.config/alacritty/themes/print_colors.sh'
 
+
+# Git daily-use aliases
+alias gss="git status"
+alias gl='git log --oneline'
+alias glo="git log --oneline --graph --decorate"
+alias glc="git log --pretty=format:'%C(yellow)%h %Cgreen%ad %Cblue[%an]%Creset %s' --date=short"
+alias gld="git log --graph --pretty=format:'%C(yellow)%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias ga='git add'
+alias gcm='git commit -m'
+alias gca='git commit --amend'
+alias gcan='git commit --amend --no-edit'
+alias gp='git push'
+alias gpl='git pull'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gb='git branch'
+alias gba='git branch -a'
+alias gco='git checkout'
+alias gcb='git checkout -b'
+alias grs='git restore'
+alias grst='git restore --staged'
