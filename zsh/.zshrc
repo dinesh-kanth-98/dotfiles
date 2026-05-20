@@ -31,7 +31,7 @@ source "${ZINIT_HOME}/zinit.zsh"
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
-# zinit light Aloxaf/fzf-tab
+zinit light Aloxaf/fzf-tab
 
 
 # Loads Oh My Zsh’s git helper library with common git utility functions used by git-related plugins
@@ -186,13 +186,13 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # To Fix Fzf not Detected in Alacritty
 # Source ~/.fzf.bash to initialize fzf features (key bindings, auto-completion) if the file exists.
-# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export PATH="$HOME/.local/bin:$PATH"
 export BAT_THEME="Catppuccin_Frappe"
 
 # Initializes fzf (fuzzy finder) for use with Zsh, enabling fuzzy search in the terminal.
-#eval "$(fzf --zsh)"
+eval "$(fzf --zsh)"
 
 # Sets up zoxide (fast directory traversal tool) for use with Zsh, improving directory navigation using `cd`.
-#eval "$(zoxide init --cmd cd zsh)"
+eval "$(zoxide init --cmd cd zsh)"
